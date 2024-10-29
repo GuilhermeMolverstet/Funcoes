@@ -1,0 +1,218 @@
+																FUNÇÕES
+															 Exercicio IV
+			"Numericos"
+	ROUND
+select ROUND(155.4485,2)
+from emp
+where deptno =10;
+
+ROUND(155.4485,2)
+-----------------
+           155.45
+           155.45
+           155.45
+--> Ira arredonda o valor da coluna	se no caso cima fosse 155.4485,1 ira so restorar 1 numero apos a vircula '155.4' e colocando 2 apos a vircula ira arredar 4485 para 45
+
+
+	TRUNC
+select trunc(155.4485,1)
+from emp
+where deptno =10;
+
+TRUNC(155.4485,2)
+-----------------
+           155.44
+           155.44
+           155.44
+
+--> Ira trunca o valor da coluna no segundo numero apos o Ponto ficando assim '155.44'
+
+
+	MOD
+select mod(15,2) from dual;
+MOD(15,2)
+----------
+         1
+
+--> Ira detornar o resto da minha divisao desses dois numeros 15/2
+
+
+
+		"Caracteries"
+select upper ('gui') from exer;
+UPPER
+------
+GUI
+
+--> o upper deixara a palavra entre ('') em maiúsculo
+
+select lower ('gru') from exer;
+UPPER
+------
+gru
+
+--> o lower deixara a palavra entre ('') em minusculo
+
+
+select substr ('paralelepipedo',5,9) from dual;
+SUBSTR
+---------
+lelepiped
+
+--> Ira "apagar" as 5 primeiras letras e a ultima letra
+
+
+select length('gui') from exer;
+LENGTH('GUI')
+----------------
+               3
+
+--> Ira trazer quantos letras há na palavra entre ('')
+
+
+
+
+		"Data"
+select to_char(sysdate,'dd/mm/yyyy HH:mi:ss')data_hora from dual;
+DATA_HORA
+-------------------
+10/09/2024 04:22:41
+
+--> Ira mostrar dia, mês, ano e hora do sistema 
+
+
+select to_date('10/11/2024','DD/MM/YYYY') from dual;
+TO_DATE
+---------
+10-NOV-24
+
+--> Aqui pode informar qual dia, mês e ano você quer selecionar
+
+
+SELECT MONTHS_BETWEEN(SYSDATE,HIREDATE),
+MONTHS_BETWEEN('01-JAN-23','01-JAN-24')
+from emp
+WHERE MONTHS_BETWEEN(SYSDATE,HIREDATE) > 59;
+
+
+
+		"Conversão"
+Utilize uma função que irá converter o retorno padrão de data e hora atual do sistema em dia/mês/ano numéricos;
+select to_number(to_char(sysdate, 'yyyymmddhh24miss')) from dual;
+
+TO_NUMBER(TO_CHAR(SYSDATE,'YYYYMMDDHH24MISS'))
+----------------------------------------------
+                                20100713105102
+--> ira converter o sysdate que é 11/SET/24, junto com ano, mes,dia, hora, minuto, segundo em formato numérico
+
+
+
+Utilize uma função para converter 01/05/2018 em data (01-MAY-18);
+
+
+
+Utilize a função que irá converte uma string em um número.
+
+
+
+
+
+
+
+
+		"Cria uma tabela com os campos: preço (55.67), nome (Tangara) e data (06/SEP/24)"
+SELECT
+    ROUND(PRECO,1) AS ,
+    UPPER(nome) AS ,
+    SUBSTR(nome, 1, 3) AS ,
+    TO_CHAR(data, 'DD-MM-YYYY') AS ,
+    TO_CHAR(ADD_MONTHS(data, 4), 'DD-MM-YYYY') AS
+FROM mataamazonica; 
+
+--> Resumo esse script ira arredonrar meu preco de 55.67 para 55.7 ira deixar meu Nome em Letra Maiscula, deixara apenas as 3 primeiras letras do nome e foi acionado mais 4 meses 
+
+
+
+
+		"Tabela Cafeteria"
+Traga através de um select o total de vendas da cafeteria;
+select sum(PRECO_PRODUTO * QUANTIDADE_VENDIDA) as total_vendas from cafeteria;
+
+TOTAL_VENDAS
+------------
+     6803.51
+
+--> para saber o total de vendas apenas faça uma divisao dos precos * quantidade e peça pra mostrar em uma nova coluna chamada de total_vendas da taminha tabela cafeteria
+
+
+Traga a quantidade de produtos vendido em cada dia;
+select data_venda, sum(QUANTIDADE_VENDIDA) as produtos_vendidos_dia from cafeteria group by data_venda order by data_venda;
+
+DATA_VEND PRODUTOS_VENDIDOS_DIA
+--------- ---------------------
+01-SEP-24                   252
+03-SEP-24                    55
+04-SEP-24                    16
+05-SEP-24                     1
+06-SEP-24                     9
+
+--> Iremos selecionar a data de vendas + a quantidade vendida e peça pra mostrar em uma nova coluna PRODUTOS_VENDIDOS_DIA da minha tabela cafeteria peça para agrupar a coluna com datas iguais e ordenar 
+
+
+Traga o produto mais caro e o mais barato;
+select NOME_PRODUTO, MAX(PRECO_PRODUTO) as maior_menor_produto from CAFETERIA group by NOME_PRODUTO fetch first 2 rows only;
+
+NOME_PRODUTO              MAIOR_MENOR_PRODUTO
+------------------------- -------------------
+Cafe pingado                             9.99
+Cuga                                    69.88
+
+--> ira mostrar apenas as linhas do menor e do maior produto
+
+
+Traga o produto com a maior quantidade de vendas no dia 2024-09-01;
+SELECT Max(QUANTIDADE_VENDIDA) from cafeteria where data_venda = '01-SEP-24';
+
+MAX(QUANTIDADE_VENDIDA)
+-----------------------
+                    200
+
+--> ira listar o produto mais vendido naquele dia
+
+
+Traga a média de preço dos produtos;
+select avg(PRECO_PRODUTO) as media_produto from cafeteria;
+
+MEDIA_PRODUTO
+-------------
+       28.766
+
+--> ira pegar o valor medio do meu preco_produto e ignorara os valores nulos
+
+
+Traga a média do valor vendido entre os dias 01 e 05;
+select avg(PRECO_PRODUTO * QUANTIDADE_VENDIDA) as media_vendido from cafeteria where data_venda between '01-SEP-24' and '05-SEP-24';
+
+MEDIA_VENDIDO
+-------------
+   903.865714
+
+--> aqui ira fazer uma divisao entre o preco e a quantidade para saber a media vendida nos dias 01/09/2024 e 05/09/2024
+
+
+Traga todos os produtos ordenando-os por data e quantidade vendida sendo o mais vendido pro menos vendido em cada dia.
+select DATA_VENDA,NOME_PRODUTO, QUANTIDADE_VENDIDA from cafeteria order by DATA_VENDA ASC, QUANTIDADE_VENDIDA DESC;
+DATA_VEND NOME_PRODUTO              QUANTIDADE_VENDIDA
+--------- ------------------------- ------------------
+01-SEP-24 Pao frances                              200
+01-SEP-24 Cafe pingado                              32
+01-SEP-24 Panqueca                                  20
+03-SEP-24 Pao de queijo                             55
+04-SEP-24 Pao de batata                             10
+04-SEP-24 Omelete                                    6
+05-SEP-24 Coruja                                     1
+06-SEP-24 Cuga                                       4
+06-SEP-24 Orelha de gato                             3
+06-SEP-24 Sonho                                      2
+
+--> ira mostrar minhas data em ordem crescente da menor data que seria 01 para a data 06 e com seus produtos que estaram ordenados em forma descresente do maior produto para o menor em cada dia
